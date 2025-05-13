@@ -1,0 +1,277 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Products</a></li>
+            {% if product.category %}
+                <li class="breadcrumb-item"><a href="{{ path('product_index', {'category': product.category.id}) }}">{{ product.category.name }}</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-5 mb-4">
+            <div class="product-image-container">
+                {% if product.image %}
+                    <img src="{{ asset('uploads/products/' ~ product.image) }}" class="img-fluid" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/600x400?text=No+Image" class="img-fluid" alt="No image">
+                {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-center gap-2">
+                <div class="border p-2 rounded" style="width: 80px; height: 80px;">
+                    {% if product.image %}
+                        <img src="{{ asset('uploads/products/' ~ product.image) }}" class="img-fluid" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/80x80?text=No+Image" class="img-fluid" alt="No image">
+                    {% endif %}
+                </div>
+                <div class="border p-2 rounded" style="width: 80px; height: 80px;">
+                    <img src="https://via.placeholder.com/80x80?text=Alt+View" class="img-fluid" alt="Alternative view">
+                </div>
+                <div class="border p-2 rounded" style="width: 80px; height: 80px;">
+                    <img src="https://via.placeholder.com/80x80?text=Alt+View" class="img-fluid" alt="Alternative view">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h1 class="mb-3">{{ product.name }}</h1>
+
+            {% if product.averageRating %}
+                <div class="mb-3 rating-stars">
+                    {% for i in 1..5 %}
+                        {% if i <= product.averageRating|round(0, 'floor') %}
+                            <i class="fas fa-star"></i>
+                        {% elseif i <= product.averageRating|round(0, 'ceil') and product.averageRating|round(1) % 1 > 0 %}
+                            <i class="fas fa-star-half-alt"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <span class="ms-2 text-muted">{{ product.averageRating|number_format(1) }} ({{ product.reviews|length }} reviews)</span>
+                </div>
+            {% endif %}
+
+            <h2 class="text-primary mb-3">${{ product.price|number_format(2) }}</h2>
+
+            <p class="mb-4">{{ product.description|nl2br }}</p>
+
+            <div class="mb-4">
+                <span class="badge {% if product.stock > 10 %}bg-success{% elseif product.stock > 0 %}bg-warning{% else %}bg-danger{% endif %}">
+                    {% if product.stock > 10 %}
+                        In Stock
+                    {% elseif product.stock > 0 %}
+                        Low Stock ({{ product.stock }} left)
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </span>
+            </div>
+
+            {% if product.stock > 0 %}
+                <form action="{{ path('cart_add', {'id': product.id}) }}" method="post" class="mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                        </div>
+                        <div class="col-auto">
+                            <select name="quantity" id="quantity" class="form-select">
+                                {% for i in 1..min(product.stock, 10) %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+
+            <div class="d-flex gap-2 mb-4">
+                <button class="btn btn-outline-primary">
+                    <i class="far fa-heart me-2"></i> Add to Wishlist
+                </button>
+                <button class="btn btn-outline-primary">
+                    <i class="fas fa-share-alt me-2"></i> Share
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product Details</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Category:</strong> {{ product.category ? product.category.name : 'N/A' }}</li>
+                        <li><strong>SKU:</strong> PROD-{{ product.id }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews ({{ product.reviews|length }})</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="productTabsContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Product Description</h5>
+                            <p>{{ product.description|nl2br }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                {% if product.averageRating %}
+                                    <div class="me-3">
+                                        <span class="fs-2 fw-bold">{{ product.averageRating|number_format(1) }}</span>
+                                        <span class="text-muted">/ 5</span>
+                                    </div>
+                                    <div class="rating-stars">
+                                        {% for i in 1..5 %}
+                                            {% if i <= product.averageRating|round(0, 'floor') %}
+                                                <i class="fas fa-star"></i>
+                                            {% elseif i <= product.averageRating|round(0, 'ceil') and product.averageRating|round(1) % 1 > 0 %}
+                                                <i class="fas fa-star-half-alt"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <span class="ms-2 text-muted">({{ product.reviews|length }} reviews)</span>
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted">No reviews yet</p>
+                                {% endif %}
+                            </div>
+
+                            {% if app.user %}
+                                <div class="review-form">
+                                    <h5 class="mb-3">Write a Review</h5>
+                                    <form action="{{ path('product_review_add', {'id': product.id}) }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="review_rating" class="form-label">Rating</label>
+                                            <div class="d-flex">
+                                                {% for i in 5..1 %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="review[rating]" id="rating{{ i }}" value="{{ i }}" required>
+                                                        <label class="form-check-label" for="rating{{ i }}">{{ i }} {% if i == 1 %}Star{% else %}Stars{% endif %}</label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="review_comment" class="form-label">Your Review (Optional)</label>
+                                            <textarea name="review[comment]" id="review_comment" class="form-control" rows="3" placeholder="Share your experience with this product"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info mb-4">
+                                    <p class="mb-0">Please <a href="{{ path('app_login') }}">log in</a> to leave a review.</p>
+                                </div>
+                            {% endif %}
+
+                            {% if product.reviews|length > 0 %}
+                                <h5 class="mb-3">Customer Reviews</h5>
+                                <div class="list-group">
+                                    {% for review in product.reviews %}
+                                        <div class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h6 class="mb-0">{{ review.user.fullName }}</h6>
+                                                <small class="text-muted">{{ review.createdAt|date('M d, Y') }}</small>
+                                            </div>
+                                            <div class="mb-2 rating-stars">
+                                                {% for i in 1..5 %}
+                                                    {% if i <= review.rating %}
+                                                        <i class="fas fa-star"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            {% if review.comment %}
+                                                <p class="mb-0">{{ review.comment|nl2br }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-light">
+                                    <p class="mb-0">Be the first to review this product!</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Shipping Information</h5>
+                            <p>We offer the following shipping options:</p>
+                            <ul>
+                                <li>Standard Shipping (3-5 business days): $5.99</li>
+                                <li>Express Shipping (1-2 business days): $12.99</li>
+                                <li>Free shipping on orders over $50</li>
+                            </ul>
+
+                            <h5 class="card-title mt-4">Return Policy</h5>
+                            <p>We accept returns within 30 days of delivery. Items must be unused and in their original packaging.</p>
+                            <p>To initiate a return, please contact our customer service team.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4">Related Products</h3>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for i in 1..4 %}
+                    <div class="col">
+                        <div class="card h-100 product-card">
+                            <img src="https://via.placeholder.com/300x200?text=Related+Product" class="card-img-top" alt="Related Product">
+                            <div class="card-body">
+                                <h5 class="card-title">Related Product {{ i }}</h5>
+                                <p class="card-text text-truncate">This is a related product description.</p>
+                                <p class="card-text fw-bold text-primary">${{ (product.price * 0.8)|number_format(2) }}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <a href="#" class="btn btn-sm btn-outline-primary">View Details</a>
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

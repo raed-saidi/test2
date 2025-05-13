@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome{% endblock %} - E-commerce Store</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
+    {# Google Fonts - Poppins #}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {# Bootstrap CSS #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {# Font Awesome #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {# Custom CSS #}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('home') }}">
+                <i class="fas fa-shopping-bag me-2"></i> E-commerce Store
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('product_index') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex me-3" action="{{ path('search_index') }}" method="get">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="q" placeholder="Search products..." aria-label="Search">
+                        <button class="btn btn-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="d-flex">
+                    <a href="{{ path('cart_index') }}" class="btn btn-outline-light me-2 position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        {% if app.session.get('cart')|length > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ app.session.get('cart')|length }}
+                                    </span>
+                        {% endif %}
+                    </a>
+                    {% if app.user %}
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                <i class="fas fa-user me-1"></i> {{ app.user.firstName }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ path('profile_index') }}">My Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ path('profile_orders') }}">My Orders</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">Admin Panel</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-light me-2">Login</a>
+                        <a href="{{ path('app_register') }}" class="btn btn-light">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container py-4">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>E-commerce Store</h5>
+                <p>Your one-stop shop for all your needs. We offer quality products at competitive prices.</p>
+                <div class="d-flex mt-3">
+                    <a href="#" class="me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{{ path('home') }}">Home</a></li>
+                    <li class="mb-2"><a href="{{ path('product_index') }}">Products</a></li>
+                    <li class="mb-2"><a href="#">About Us</a></li>
+                    <li class="mb-2"><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h5>Customer Service</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#">FAQ</a></li>
+                    <li class="mb-2"><a href="#">Shipping Policy</a></li>
+                    <li class="mb-2"><a href="#">Return Policy</a></li>
+                    <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h5>Contact Us</h5>
+                <address>
+                    <p class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 E-commerce St, City, Country</p>
+                    <p class="mb-2"><i class="fas fa-phone me-2"></i> +1 234 567 890</p>
+                    <p class="mb-2"><i class="fas fa-envelope me-2"></i> info@ecommerce.com</p>
+                </address>
+            </div>
+        </div>
+        <hr class="mt-4 mb-3">
+        <div class="text-center">
+            <p class="mb-0">&copy; {{ "now"|date("Y") }} E-commerce Store. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+{# Bootstrap JS Bundle with Popper #}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

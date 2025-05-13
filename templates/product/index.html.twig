@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ path('product_index') }}" class="list-group-item list-group-item-action {% if not currentCategory %}active{% endif %}">
+                            All Products
+                        </a>
+                        {% for category in categories %}
+                            <a href="{{ path('product_index', {'category': category.id}) }}" class="list-group-item list-group-item-action {% if currentCategory and currentCategory.id == category.id %}active{% endif %}">
+                                {{ category.name }}
+                                <span class="badge bg-primary float-end">{{ category.products|length }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>
+                    {% if currentCategory %}
+                        {{ currentCategory.name }}
+                    {% else %}
+                        All Products
+                    {% endif %}
+                </h1>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                        Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                        <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
+                        <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
+                        <li><a class="dropdown-item" href="#">Name: A to Z</a></li>
+                        <li><a class="dropdown-item" href="#">Name: Z to A</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            {% if products|length > 0 %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for product in products %}
+                        <div class="col">
+                            <div class="card h-100">
+                                {% if product.image %}
+                                    <img src="{{ asset('uploads/products/' ~ product.image) }}" class="card-img-top" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No image">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text text-truncate">{{ product.description }}</p>
+                                    <p class="card-text fw-bold text-primary">${{ product.price|number_format(2) }}</p>
+
+                                    {% if product.averageRating %}
+                                        <div class="mb-2">
+                                            {% for i in 1..5 %}
+                                                {% if i <= product.averageRating|round(0, 'floor') %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% elseif i <= product.averageRating|round(0, 'ceil') and product.averageRating|round(1) % 1 > 0 %}
+                                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star text-warning"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <span class="ms-2 text-muted">({{ product.reviews|length }})</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                    <form action="{{ path('cart_add', {'id': product.id}) }}" method="post">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p class="mb-0">No products found.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

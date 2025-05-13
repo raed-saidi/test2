@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Shopping Cart</h1>
+
+    {% if cart|length > 0 %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Cart Items ({{ cart|length }})</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for id, item in cart %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if item.product.image %}
+                                                    <img src="{{ asset('uploads/products/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="img-thumbnail me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                                {% else %}
+                                                    <img src="https://via.placeholder.com/60x60?text=No+Image" alt="No image" class="img-thumbnail me-2">
+                                                {% endif %}
+                                                <div>
+                                                    <a href="{{ path('product_show', {'id': item.product.id}) }}" class="text-decoration-none fw-bold">{{ item.product.name }}</a>
+                                                    {% if item.product.category %}
+                                                        <small class="text-muted d-block">{{ item.product.category.name }}</small>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>${{ item.product.price|number_format(2) }}</td>
+                                        <td>
+                                            <form action="{{ path('cart_update', {'id': id}) }}" method="post" class="d-flex align-items-center">
+                                                <select name="quantity" class="form-select form-select-sm" style="width: 70px;" onchange="this.form.submit()">
+                                                    {% for i in 1..min(item.product.stock, 10) %}
+                                                        <option value="{{ i }}" {% if i == item.quantity %}selected{% endif %}>{{ i }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td class="fw-bold">${{ (item.product.price * item.quantity)|number_format(2) }}</td>
+                                        <td>
+                                            <a href="{{ path('cart_remove', {'id': id}) }}" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('product_index') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                            </a>
+                            <a href="{{ path('cart_clear') }}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i> Clear Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 order-summary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>${{ total|number_format(2) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping:</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tax (10%):</span>
+                            <span>${{ (total * 0.1)|number_format(2) }}</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong>${{ (total + (total * 0.1))|number_format(2) }}</strong>
+                        </div>
+                        <a href="{{ path('checkout_index') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-credit-card me-2"></i> Proceed to Checkout
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Have a Coupon?</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="d-flex">
+                            <input type="text" class="form-control me-2" placeholder="Coupon code">
+                            <button type="submit" class="btn btn-outline-primary">Apply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+            <h3>Your cart is empty</h3>
+            <p class="text-muted mb-4">Looks like you haven't added any products to your cart yet.</p>
+            <a href="{{ path('product_index') }}" class="btn btn-primary">
+                <i class="fas fa-shopping-bag me-2"></i> Browse Products
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
