@@ -14,17 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(
-        Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        // Redirect if user is already logged in
+        if ($this->getUser()) {
+            $this->addFlash('info', 'You are already logged in.');
+            return $this->redirectToRoute('home');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash the password
+            // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -32,11 +35,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            // Persist user
+            // Save user to database
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Flash message
             $this->addFlash('success', 'Your account has been created! You can now log in.');
 
             return $this->redirectToRoute('app_login');
