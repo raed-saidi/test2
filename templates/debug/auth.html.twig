@@ -1,0 +1,105 @@
+{# templates/debug/auth.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Authentication Debug{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Authentication Debug</h1>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="h5 mb-0">Current User</h2>
+            </div>
+            <div class="card-body">
+                {% if currentUser %}
+                    <table class="table">
+                        <tbody>
+                        {% for key, value in currentUser %}
+                            <tr>
+                                <th>{{ key }}</th>
+                                <td>
+                                    {% if value is iterable %}
+                                        {{ value|join(', ') }}
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted">No user is currently logged in.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="h5 mb-0">Sample Users</h2>
+            </div>
+            <div class="card-body">
+                {% if sampleUsers %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Google User</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in sampleUsers %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                                <td>{{ user.isGoogleUser ? 'Yes' : 'No' }}</td>
+                                <td>{{ user.roles|join(', ') }}</td>
+                                <td>
+                                    <form class="d-inline" onsubmit="return testPassword({{ user.id }});">
+                                        <div class="input-group input-group-sm">
+                                            <input type="password" id="password-{{ user.id }}" class="form-control" placeholder="Test password">
+                                            <button type="submit" class="btn btn-outline-primary">Test</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted">No users found in the database.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function testPassword(userId) {
+            const password = document.getElementById(`password-${userId}`).value;
+            if (!password) {
+                alert('Please enter a password to test');
+                return false;
+            }
+
+            fetch(`/debug/test-password/${userId}/${encodeURIComponent(password)}`)
+                .then(response => response.text())
+                .then(result => {
+                    alert(result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error testing password');
+                });
+
+            return false;
+        }
+    </script>
+{% endblock %}

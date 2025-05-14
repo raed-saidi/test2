@@ -8,20 +8,19 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
- *
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private $logger;
+
+    public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
     {
         parent::__construct($registry, User::class);
+        $this->logger = $logger;
     }
 
     public function save(User $entity, bool $flush = false): void
@@ -48,6 +47,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
+
+        $this->logger->info('Upgrading password for user', [
+            'email' => $user->getEmail(),
+        ]);
 
         $user->setPassword($newHashedPassword);
 

@@ -10,15 +10,24 @@
                     <h1 class="h3 mb-0">Login to Your Account</h1>
                 </div>
                 <div class="card-body">
-                    {% for message in app.flashes('warning') %}
-                        <div class="alert alert-warning">
-                            {{ message }}
-                        </div>
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     {% endfor %}
 
                     <form method="post">
-                        {% if error and not app.flashes('warning') %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                Authentication failed: {{ error.messageKey|trans(error.messageData, 'security') }}
+                                {% if app.request.get('email') %}
+                                    <p class="mt-2 mb-0">
+                                        If you registered with Google, please use the "Login with Google" button below.
+                                    </p>
+                                {% endif %}
+                            </div>
                         {% endif %}
 
                         {% if app.user %}
