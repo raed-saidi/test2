@@ -12,13 +12,13 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
             lazy: true
             provider: app_user_provider
-            entry_point: App\Security\GoogleAuthenticator
+            entry_point: App\Security\FormLoginAuthenticator
             custom_authenticators:
                 - App\Security\GoogleAuthenticator
+                - App\Security\FormLoginAuthenticator
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -31,7 +31,7 @@ security:
                 target: home
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800
+                lifetime: 604800 # 1 week
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
