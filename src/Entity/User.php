@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isGoogleUser = false;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -66,7 +69,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
@@ -90,7 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
+        // Clear temporary sensitive data
     }
 
     public function getFirstName(): ?string
@@ -120,9 +122,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName . ' ' . $this->lastName;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
     public function getOrders(): Collection
     {
         return $this->orders;
@@ -141,12 +140,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeOrder(Order $order): static
     {
         if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
         }
 
+        return $this;
+    }
+
+    public function isGoogleUser(): bool
+    {
+        return $this->isGoogleUser;
+    }
+
+    public function setIsGoogleUser(bool $isGoogleUser): static
+    {
+        $this->isGoogleUser = $isGoogleUser;
         return $this;
     }
 }
