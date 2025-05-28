@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Security;
 
 use App\Entity\User;
@@ -48,7 +47,6 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function supports(Request $request): ?bool
     {
-        // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
     }
 
@@ -61,38 +59,29 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
-
                 $email = $googleUser->getEmail();
 
-                $this->logger->info('Google authentication attempt', [
-                    'email' => $email,
-                ]);
+                $this->logger->info('Google authentication attempt', ['email' => $email]);
 
-                // 1) have they logged in with Google before?
                 $existingUser = $this->userRepository->findOneBy(['email' => $email]);
 
                 if ($existingUser) {
-                    $this->logger->info('Existing user found for Google login', [
+                    $this->logger->info('Existing user found', [
                         'email' => $email,
                         'is_google_user' => $existingUser->isGoogleUser(),
+                        'current_password_hash' => substr($existingUser->getPassword(), 0, 10) . '...',
                     ]);
 
-                    // If this is a regular user that now wants to use Google, update their status
+                    // Only update isGoogleUser, preserve existing password
                     if (!$existingUser->isGoogleUser()) {
                         $existingUser->setIsGoogleUser(true);
                         $this->entityManager->flush();
-                        $this->logger->info('Updated regular user to Google user', [
-                            'email' => $email,
-                        ]);
+                        $this->logger->info('Updated user to Google user', ['email' => $email]);
                     }
-
                     return $existingUser;
                 }
 
-                // Create a new user
-                $this->logger->info('Creating new user from Google login', [
-                    'email' => $email,
-                ]);
+                $this->logger->info('Creating new Google user', ['email' => $email]);
 
                 $user = new User();
                 $user->setEmail($email);
@@ -100,8 +89,6 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 $user->setLastName($googleUser->getLastName() ?? 'User');
                 $user->setIsGoogleUser(true);
 
-                // Generate a secure random password - they won't use this for login
-                // but we need something in the password field
                 $randomPassword = bin2hex(random_bytes(16));
                 $hashedPassword = $this->passwordHasher->hashPassword($user, $randomPassword);
                 $user->setPassword($hashedPassword);
@@ -111,6 +98,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 $this->logger->info('New Google user created', [
                     'email' => $email,
+                    'password_hash' => substr($hashedPassword, 0, 10) . '...',
                 ]);
 
                 return $user;
@@ -120,31 +108,21 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $this->logger->info('Google authentication successful', [
-            'email' => $token->getUserIdentifier(),
-        ]);
-
-        // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('home');
-
-        return new RedirectResponse($targetUrl);
+        $this->logger->info('Google authentication successful', ['email' => $token->getUserIdentifier()]);
+        return new RedirectResponse($this->router->generate('home'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $this->logger->error('Google authentication failed', [
             'error' => $exception->getMessage(),
+            'exception_trace' => $exception->getTraceAsString(),
         ]);
-
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-
-        return new Response($message, Response::HTTP_FORBIDDEN);
+        return new Response(strtr($exceptionUsd::getMessageKey(), $exception->getMessageData()), Response::HTTP_FORBIDDEN);
     }
+
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        return new RedirectResponse(
-            '/login', // might be the site, where users choose their oauth provider
-            Response::HTTP_TEMPORARY_REDIRECT
-        );
+        return new RedirectResponse('/login', Response::HTTP_TEMPORARY_REDIRECT);
     }
 }

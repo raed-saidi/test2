@@ -17,8 +17,8 @@ security:
             provider: app_user_provider
             entry_point: App\Security\FormLoginAuthenticator
             custom_authenticators:
-                - App\Security\GoogleAuthenticator
                 - App\Security\FormLoginAuthenticator
+                - App\Security\GoogleAuthenticator
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -31,7 +31,7 @@ security:
                 target: home
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800 # 1 week
+                lifetime: 604800
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

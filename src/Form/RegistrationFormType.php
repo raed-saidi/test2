@@ -60,14 +60,21 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped' => false,
+                'mapped' => false, // Not mapped to entity directly for security
                 'first_options' => [
-                    'attr' => ['class' => 'form-control', 'autocomplete' => 'new-password', 'placeholder' => 'Password'],
+                    'attr' => [
+                        'class' => 'form-control',
+                        'autocomplete' => 'new-password',
+                        'placeholder' => 'Password'
+                    ],
                     'label' => 'Password',
                     'label_attr' => ['class' => 'form-label'],
                 ],
                 'second_options' => [
-                    'attr' => ['class' => 'form-control', 'placeholder' => 'Confirm Password'],
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Confirm Password'
+                    ],
                     'label' => 'Confirm Password',
                     'label_attr' => ['class' => 'form-label'],
                 ],

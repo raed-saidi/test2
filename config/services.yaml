@@ -10,17 +10,19 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Security\FormLoginAuthenticator:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $urlGenerator: '@router'
-            $logger: '@logger'
+    # Twig Extensions
+    App\Twig\CategoryExtension:
+        tags: ['twig.extension']
 
-    App\Security\GoogleAuthenticator:
+    # Services with explicit session binding
+    App\Service\CartService:
         arguments:
-            $clientRegistry: '@knpu.oauth2.registry'
+            $requestStack: '@request_stack'
+            $productRepository: '@App\Repository\ProductRepository'
+            $couponService: '@App\Service\CouponService'
+
+    App\Service\CouponService:
+        arguments:
+            $couponRepository: '@App\Repository\CouponRepository'
             $entityManager: '@doctrine.orm.entity_manager'
-            $router: '@router'
-            $userRepository: '@App\Repository\UserRepository'
-            $passwordHasher: '@security.password_hasher'
-            $logger: '@logger'
+            $requestStack: '@request_stack'

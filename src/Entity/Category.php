@@ -36,7 +36,7 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -50,25 +50,27 @@ class Category
         return $this->products;
     }
 
-    public function addProduct(Product $product): static
+    public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
             $product->setCategory($this);
         }
-
         return $this;
     }
 
-    public function removeProduct(Product $product): static
+    public function removeProduct(Product $product): self
     {
         if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
             }
         }
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
     }
 }

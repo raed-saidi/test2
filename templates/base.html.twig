@@ -1,141 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OnlyBrands{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ path('home') }}">
-                <i class="fas fa-shopping-bag me-2"></i> E-commerce Store
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('product_index') }}">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-                <form class="d-flex me-3" action="{{ path('search_index') }}" method="get">
-                    <div class="input-group">
-                        <input class="form-control" type="search" name="q" placeholder="Search products..." aria-label="Search">
-                        <button class="btn btn-light" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-                <div class="d-flex">
-                    <a href="{{ path('cart_index') }}" class="btn btn-outline-light me-2 position-relative">
-                        <i class="fas fa-shopping-cart"></i>
-                        {% if app.session.get('cart')|length > 0 %}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {{ app.session.get('cart')|length }}
-                                    </span>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-gradient" href="{{ path('home') }}">
+           OnlyBrands
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('home') }}">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('product_index') }}">
+                        <i class="fas fa-shopping-bag me-1"></i> Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('cart_index') }}">
+                        <i class="fas fa-shopping-cart me-1"></i> Cart
+                        {% if app.session.get('cart') %}
+                            <span class="badge bg-primary ms-1">{{ app.session.get('cart')|length }}</span>
                         {% endif %}
                     </a>
-                    {% if app.user %}
-                        <div class="dropdown">
-                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i> {{ app.user.firstName }}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ path('profile_index') }}">My Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ path('profile_orders') }}">My Orders</a></li>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">Admin Panel</a></li>
-                                {% endif %}
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
-                            </ul>
-                        </div>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-light me-2">Login</a>
-                        <a href="{{ path('app_register') }}" class="btn btn-light">Register</a>
-                    {% endif %}
-                </div>
-            </div>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+
+
+                {% if app.user %}
+                    <!-- User Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            {{ app.user.firstName ? app.user.firstName : app.user.email|split('@')[0] }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end glass-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_profile') }}">
+                                    <i class="fas fa-user me-2"></i> Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_profile_orders') }}">
+                                    <i class="fas fa-shopping-bag me-2"></i> My Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_profile_settings') }}">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">
+                            <i class="fas fa-user-plus me-1"></i> Register
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-    </nav>
-</header>
+    </div>
+</nav>
 
-<main class="container py-4">
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }} alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {% endfor %}
+<!-- Flash Messages -->
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }} alert-dismissible fade show flash-message" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     {% endfor %}
+{% endfor %}
 
+<!-- Main Content -->
+<main class="main-content">
     {% block body %}{% endblock %}
 </main>
 
-<footer class="footer">
+<!-- Footer -->
+<footer class="footer glass-footer mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <h5>E-commerce Store</h5>
-                <p>Your one-stop shop for all your needs. We offer quality products at competitive prices.</p>
-                <div class="d-flex mt-3">
-                    <a href="#" class="me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-twitter fa-lg"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-linkedin-in fa-lg"></i></a>
+            <div class="col-lg-4 mb-4">
+                <h5 class="text-gradient mb-3">OnlyBrands</h5>
+                <p class="text-light-gray">Your trusted destination for premium products from the world's leading brands.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
-            <div class="col-md-2 mb-4">
-                <h5>Quick Links</h5>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="mb-3">Quick Links</h6>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="{{ path('home') }}">Home</a></li>
-                    <li class="mb-2"><a href="{{ path('product_index') }}">Products</a></li>
-                    <li class="mb-2"><a href="#">About Us</a></li>
-                    <li class="mb-2"><a href="#">Contact</a></li>
+                    <li><a href="{{ path('home') }}" class="footer-link">Home</a></li>
+                    <li><a href="{{ path('product_index') }}" class="footer-link">Products</a></li>
+                    <li><a href="#" class="footer-link">About Us</a></li>
+                    <li><a href="#" class="footer-link">Contact</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 mb-4">
-                <h5>Customer Service</h5>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="mb-3">Categories</h6>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#">FAQ</a></li>
-                    <li class="mb-2"><a href="#">Shipping Policy</a></li>
-                    <li class="mb-2"><a href="#">Return Policy</a></li>
-                    <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                    <li><a href="#" class="footer-link">Electronics</a></li>
+                    <li><a href="#" class="footer-link">Clothing</a></li>
+                    <li><a href="#" class="footer-link">Books</a></li>
+                    <li><a href="#" class="footer-link">Home & Garden</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 mb-4">
-                <h5>Contact Us</h5>
-                <address>
-                    <p class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 E-commerce St, City, Country</p>
-                    <p class="mb-2"><i class="fas fa-phone me-2"></i> +1 234 567 890</p>
-                    <p class="mb-2"><i class="fas fa-envelope me-2"></i> info@ecommerce.com</p>
-                </address>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="mb-3">Support</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="footer-link">Help Center</a></li>
+                    <li><a href="#" class="footer-link">Shipping Info</a></li>
+                    <li><a href="#" class="footer-link">Returns</a></li>
+                    <li><a href="#" class="footer-link">Size Guide</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h6 class="mb-3">Account</h6>
+                <ul class="list-unstyled">
+                    {% if app.user %}
+                        <li><a href="{{ path('app_profile') }}" class="footer-link">My Profile</a></li>
+                        <li><a href="{{ path('app_profile_orders') }}" class="footer-link">My Orders</a></li>
+                        <li><a href="{{ path('cart_index') }}" class="footer-link">My Cart</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}" class="footer-link">Login</a></li>
+                        <li><a href="{{ path('app_register') }}" class="footer-link">Register</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
-        <hr class="mt-4 mb-3">
-        <div class="text-center">
-            <p class="mb-0">&copy; {{ "now"|date("Y") }} E-commerce Store. All rights reserved.</p>
+        <hr class="border-light-gray my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="text-light-gray mb-0">&copy; {{ 'now'|date('Y') }} OnlyBrands. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa fa-2x me-2"></i>
+                    <i class="fab fa-cc-mastercard fa-2x me-2"></i>
+                </div>
+            </div>
         </div>
     </div>
 </footer>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% block javascripts %}{% endblock %}
 </body>

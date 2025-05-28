@@ -11,11 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(
-        ProductRepository $productRepository,
-        CategoryRepository $categoryRepository
-    ): Response {
-        $featuredProducts = $productRepository->findBy([], ['id' => 'DESC'], 8);
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    {
+        $featuredProducts = $productRepository->findBy([], ['id' => 'DESC'], 4);
         $categories = $categoryRepository->findAll();
 
         return $this->render('home/index.html.twig', [
@@ -24,4 +22,3 @@ class HomeController extends AbstractController
         ]);
     }
 }
-
