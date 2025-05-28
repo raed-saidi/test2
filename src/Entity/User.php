@@ -2,47 +2,46 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "integer")]
+    private $id;
 
-    #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    private $email;
 
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(type: "json")]
+    private $roles = [];
 
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(type: "string")]
+    private $password;
 
-    #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private $firstName;
 
-    #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private $lastName;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
-    private Collection $orders;
+    #[ORM\Column(type: "string", length: 20, nullable: true)]
+    private $phone;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    private bool $isGoogleUser = false;
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private $createdAt;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private $updatedAt;
+
+    // Constructor to set default createdAt
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -55,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
         return $this;
@@ -73,26 +72,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
-    }
-
-    public function eraseCredentials(): void
-    {
-        // Clear temporary sensitive data
     }
 
     public function getFirstName(): ?string
@@ -100,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
         return $this;
@@ -111,51 +105,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
         return $this;
     }
 
-    public function getFullName(): string
+    public function getPhone(): ?string
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return $this->phone;
     }
 
-    public function getOrders(): Collection
+    public function setPhone(?string $phone): self
     {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): static
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setUser($this);
-        }
-
+        $this->phone = $phone;
         return $this;
     }
 
-    public function removeOrder(Order $order): static
+    public function getFullName(): ?string
     {
-        if ($this->orders->removeElement($order)) {
-            if ($order->getUser() === $this) {
-                $order->setUser(null);
-            }
-        }
+        return trim(($this->firstName ?? '') . ' ' . ($this->lastName ?? ''));
+    }
 
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function isGoogleUser(): bool
+    public function getUpdatedAt(): ?\DateTime
     {
-        return $this->isGoogleUser;
+        return $this->updatedAt;
     }
 
-    public function setIsGoogleUser(bool $isGoogleUser): static
+    public function setUpdatedAt(?\DateTime $updatedAt): self
     {
-        $this->isGoogleUser = $isGoogleUser;
+        $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
     }
 }
