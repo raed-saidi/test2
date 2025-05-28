@@ -123,7 +123,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                 if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 33), "image", [], "any", false, false, false, 33)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                     // line 34
                     yield "                                                        <img src=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/products/" . CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 34), "image", [], "any", false, false, false, 34))), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Uploads/products/" . CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 34), "image", [], "any", false, false, false, 34))), "html", null, true);
                     yield "\"
                                                              alt=\"";
                     // line 35
@@ -244,8 +244,8 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                         </div>
                         <div class=\"card-body\">
                             <div class=\"d-flex justify-content-between mb-2\">
-                                <span class=\"white\">Subtotal:</span>
-                                <span class=\"white\" >";
+                                <span>Subtotal:</span>
+                                <span>";
             // line 109
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 109, $this->source); })()), "subtotal", [], "any", false, false, false, 109), 3), "html", null, true);
             yield " TND</span>
@@ -256,11 +256,11 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
             if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 112, $this->source); })()), "coupon", [], "any", false, false, false, 112)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                 // line 113
                 yield "                                <div class=\"d-flex justify-content-between mb-2 text-success\">
-                                    <span class=\"white\">Discount (";
+                                    <span>Discount (";
                 // line 114
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 114, $this->source); })()), "coupon", [], "any", false, false, false, 114), "code", [], "any", false, false, false, 114), "html", null, true);
                 yield "):</span>
-                                    <span class=\"white\">-";
+                                    <span>-";
                 // line 115
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 115, $this->source); })()), "discount", [], "any", false, false, false, 115), 3), "html", null, true);
                 yield " TND</span>
@@ -270,13 +270,13 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
             // line 118
             yield "
                             <div class=\"d-flex justify-content-between mb-2\">
-                                <span class=\"white\">Shipping:</span>
-                                <span class=\"white\">
+                                <span>Shipping:</span>
+                                <span>
                                 ";
             // line 122
             if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 122, $this->source); })()), "shipping", [], "any", false, false, false, 122) == 0)) {
                 // line 123
-                yield "                                    <span class=\"  text-success\">Free</span>
+                yield "                                    <span class=\"text-success\">Free</span>
                                 ";
             } else {
                 // line 125
@@ -292,7 +292,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                             <hr>
 
                             <div class=\"d-flex justify-content-between mb-3\">
-                                <strong class=\"white\">Total:</strong>
+                                <strong>Total:</strong>
                                 <strong class=\"text-primary\">";
             // line 134
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 134, $this->source); })()), "total", [], "any", false, false, false, 134), 3), "html", null, true);
@@ -324,7 +324,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                                            class=\"form-control\"
                                            id=\"couponCode\"
                                            placeholder=\"Enter coupon code\">
-                                    <button class=\"btn white gray btn-outline-secondary\"
+                                    <button class=\"btn btn-outline-secondary\"
                                             type=\"button\"
                                             onclick=\"applyCoupon()\">
                                         Apply
@@ -333,9 +333,12 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                             </div>
 
                             <div class=\"d-grid\">
-                                <button class=\"btn btn-primary btn-lg\">
+                                <a href=\"";
+            // line 163
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("checkout_index");
+            yield "\" class=\"btn btn-primary btn-lg\">
                                     <i class=\"fas fa-credit-card me-2\"></i>Proceed to Checkout
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -438,7 +441,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  391 => 194,  380 => 185,  370 => 184,  361 => 181,  353 => 176,  347 => 172,  318 => 145,  311 => 141,  306 => 138,  304 => 137,  298 => 134,  289 => 127,  283 => 125,  279 => 123,  277 => 122,  271 => 118,  265 => 115,  261 => 114,  258 => 113,  256 => 112,  250 => 109,  231 => 93,  225 => 90,  216 => 83,  202 => 75,  196 => 72,  184 => 63,  179 => 61,  170 => 55,  164 => 52,  158 => 48,  152 => 46,  150 => 45,  146 => 44,  143 => 43,  137 => 39,  130 => 35,  125 => 34,  123 => 33,  118 => 30,  114 => 29,  93 => 10,  91 => 9,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  394 => 194,  383 => 185,  373 => 184,  364 => 181,  356 => 176,  350 => 172,  338 => 163,  318 => 145,  311 => 141,  306 => 138,  304 => 137,  298 => 134,  289 => 127,  283 => 125,  279 => 123,  277 => 122,  271 => 118,  265 => 115,  261 => 114,  258 => 113,  256 => 112,  250 => 109,  231 => 93,  225 => 90,  216 => 83,  202 => 75,  196 => 72,  184 => 63,  179 => 61,  170 => 55,  164 => 52,  158 => 48,  152 => 46,  150 => 45,  146 => 44,  143 => 43,  137 => 39,  130 => 35,  125 => 34,  123 => 33,  118 => 30,  114 => 29,  93 => 10,  91 => 9,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -476,7 +479,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                                             <td>
                                                 <div class=\"d-flex align-items-center\">
                                                     {% if item.product.image %}
-                                                        <img src=\"{{ asset('uploads/products/' ~ item.product.image) }}\"
+                                                        <img src=\"{{ asset('Uploads/products/' ~ item.product.image) }}\"
                                                              alt=\"{{ item.product.name }}\"
                                                              class=\"me-3\"
                                                              style=\"width: 60px; height: 60px; object-fit: cover;\">
@@ -550,22 +553,22 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                         </div>
                         <div class=\"card-body\">
                             <div class=\"d-flex justify-content-between mb-2\">
-                                <span class=\"white\">Subtotal:</span>
-                                <span class=\"white\" >{{ cartSummary.subtotal|number_format(3) }} TND</span>
+                                <span>Subtotal:</span>
+                                <span>{{ cartSummary.subtotal|number_format(3) }} TND</span>
                             </div>
 
                             {% if cartSummary.coupon %}
                                 <div class=\"d-flex justify-content-between mb-2 text-success\">
-                                    <span class=\"white\">Discount ({{ cartSummary.coupon.code }}):</span>
-                                    <span class=\"white\">-{{ cartSummary.discount|number_format(3) }} TND</span>
+                                    <span>Discount ({{ cartSummary.coupon.code }}):</span>
+                                    <span>-{{ cartSummary.discount|number_format(3) }} TND</span>
                                 </div>
                             {% endif %}
 
                             <div class=\"d-flex justify-content-between mb-2\">
-                                <span class=\"white\">Shipping:</span>
-                                <span class=\"white\">
+                                <span>Shipping:</span>
+                                <span>
                                 {% if cartSummary.shipping == 0 %}
-                                    <span class=\"  text-success\">Free</span>
+                                    <span class=\"text-success\">Free</span>
                                 {% else %}
                                     {{ cartSummary.shipping|number_format(3) }} TND
                                 {% endif %}
@@ -575,7 +578,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                             <hr>
 
                             <div class=\"d-flex justify-content-between mb-3\">
-                                <strong class=\"white\">Total:</strong>
+                                <strong>Total:</strong>
                                 <strong class=\"text-primary\">{{ cartSummary.total|number_format(3) }} TND</strong>
                             </div>
 
@@ -596,7 +599,7 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                                            class=\"form-control\"
                                            id=\"couponCode\"
                                            placeholder=\"Enter coupon code\">
-                                    <button class=\"btn white gray btn-outline-secondary\"
+                                    <button class=\"btn btn-outline-secondary\"
                                             type=\"button\"
                                             onclick=\"applyCoupon()\">
                                         Apply
@@ -605,9 +608,9 @@ class __TwigTemplate_79d866ade6a199b65d09518ee495257f extends Template
                             </div>
 
                             <div class=\"d-grid\">
-                                <button class=\"btn btn-primary btn-lg\">
+                                <a href=\"{{ path('checkout_index') }}\" class=\"btn btn-primary btn-lg\">
                                     <i class=\"fas fa-credit-card me-2\"></i>Proceed to Checkout
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

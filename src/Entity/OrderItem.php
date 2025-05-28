@@ -21,7 +21,7 @@ class OrderItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 3)]
     private ?float $price = null;
 
     #[ORM\Column(type: 'integer')]

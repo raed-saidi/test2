@@ -37,20 +37,43 @@ class CheckoutController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle payment fields
+            $cardName = $request->request->get('card_name');
+            $cardNumber = $request->request->get('card_number');
+            $cardExpiry = $request->request->get('card_expiry');
+            $cardCvv = $request->request->get('card_cvv');
+            $paymentMethod = $request->request->get('payment_method');
+
+            // Validate payment fields (placeholder)
+            if ($paymentMethod === 'credit' && (!$cardName || !$cardNumber || !$cardExpiry || !$cardCvv)) {
+                $this->addFlash('error', 'Please fill in all payment details.');
+                return $this->redirectToRoute('checkout_index');
+            }
+
             // Create order items
             foreach ($cart as $id => $item) {
                 $orderItem = new OrderItem();
                 $orderItem->setProduct($item['product']);
                 $orderItem->setQuantity($item['quantity']);
                 $orderItem->setPrice($item['product']->getPrice());
-                $orderItem->setTotal($item['product']->getPrice() * $item['quantity']);
-
+                $orderItem->setOrder($order); // Set the order relation
                 $order->addItem($orderItem);
 
                 // Update product stock
                 $product = $item['product'];
-                $product->setStock($product->getStock() - $item['quantity']);
+                $newStock = $product->getStock() - $item['quantity'];
+                if ($newStock < 0) {
+                    $this->addFlash('error', 'Insufficient stock for ' . $product->getName());
+                    return $this->redirectToRoute('checkout_index');
+                }
+                $product->setStock($newStock);
                 $entityManager->persist($product);
+            }
+
+            // Placeholder for payment processing
+            if ($paymentMethod === 'credit') {
+                // TODO: Integrate Stripe or other payment gateway
+                $order->setStatus('paid'); // Temporary for testing
             }
 
             $entityManager->persist($order);
@@ -72,7 +95,6 @@ class CheckoutController extends AbstractController
     #[Route('/success/{id}', name: 'checkout_success')]
     public function success(Order $order): Response
     {
-        // Ensure the order belongs to the current user
         if ($order->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('You are not authorized to view this order');
         }

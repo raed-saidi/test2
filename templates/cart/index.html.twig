@@ -31,7 +31,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     {% if item.product.image %}
-                                                        <img src="{{ asset('uploads/products/' ~ item.product.image) }}"
+                                                        <img src="{{ asset('Uploads/products/' ~ item.product.image) }}"
                                                              alt="{{ item.product.name }}"
                                                              class="me-3"
                                                              style="width: 60px; height: 60px; object-fit: cover;">
@@ -105,22 +105,22 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="white">Subtotal:</span>
-                                <span class="white" >{{ cartSummary.subtotal|number_format(3) }} TND</span>
+                                <span>Subtotal:</span>
+                                <span>{{ cartSummary.subtotal|number_format(3) }} TND</span>
                             </div>
 
                             {% if cartSummary.coupon %}
                                 <div class="d-flex justify-content-between mb-2 text-success">
-                                    <span class="white">Discount ({{ cartSummary.coupon.code }}):</span>
-                                    <span class="white">-{{ cartSummary.discount|number_format(3) }} TND</span>
+                                    <span>Discount ({{ cartSummary.coupon.code }}):</span>
+                                    <span>-{{ cartSummary.discount|number_format(3) }} TND</span>
                                 </div>
                             {% endif %}
 
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="white">Shipping:</span>
-                                <span class="white">
+                                <span>Shipping:</span>
+                                <span>
                                 {% if cartSummary.shipping == 0 %}
-                                    <span class="  text-success">Free</span>
+                                    <span class="text-success">Free</span>
                                 {% else %}
                                     {{ cartSummary.shipping|number_format(3) }} TND
                                 {% endif %}
@@ -130,7 +130,7 @@
                             <hr>
 
                             <div class="d-flex justify-content-between mb-3">
-                                <strong class="white">Total:</strong>
+                                <strong>Total:</strong>
                                 <strong class="text-primary">{{ cartSummary.total|number_format(3) }} TND</strong>
                             </div>
 
@@ -151,7 +151,7 @@
                                            class="form-control"
                                            id="couponCode"
                                            placeholder="Enter coupon code">
-                                    <button class="btn white gray btn-outline-secondary"
+                                    <button class="btn btn-outline-secondary"
                                             type="button"
                                             onclick="applyCoupon()">
                                         Apply
@@ -160,9 +160,9 @@
                             </div>
 
                             <div class="d-grid">
-                                <button class="btn btn-primary btn-lg">
+                                <a href="{{ path('checkout_index') }}" class="btn btn-primary btn-lg">
                                     <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

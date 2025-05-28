@@ -25,7 +25,7 @@ class Order
     #[ORM\Column(type: "string", length: 255)]
     private ?string $status = null;
 
-    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 3)]
     private ?float $total = null;
 
     #[ORM\Column(type: "text")]
@@ -128,7 +128,6 @@ class Order
             $this->items[] = $item;
             $item->setOrder($this);
         }
-
         return $this;
     }
 
@@ -139,7 +138,6 @@ class Order
                 $item->setOrder(null);
             }
         }
-
         return $this;
     }
 }

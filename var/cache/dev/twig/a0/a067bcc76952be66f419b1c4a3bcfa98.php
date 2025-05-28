@@ -83,194 +83,255 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "    <h1 class=\"mb-4\">Checkout</h1>
+        yield "    <div class=\"container mt-5\">
+        <h1 class=\"mb-4\"><i class=\"fas fa-credit-card me-2\"></i>Checkout</h1>
 
-    <div class=\"checkout-steps mb-4\">
-        <div class=\"step completed\">
-            <span>1</span>
-            <span class=\"step-label\">Cart</span>
+        <div class=\"checkout-steps mb-4\">
+            <div class=\"step completed\">
+                <span>1</span>
+                <span class=\"step-label\">Cart</span>
+            </div>
+            <div class=\"step active\">
+                <span>2</span>
+                <span class=\"step-label\">Checkout</span>
+            </div>
+            <div class=\"step\">
+                <span>3</span>
+                <span class=\"step-label\">Confirmation</span>
+            </div>
         </div>
-        <div class=\"step active\">
-            <span>2</span>
-            <span class=\"step-label\">Checkout</span>
-        </div>
-        <div class=\"step\">
-            <span>3</span>
-            <span class=\"step-label\">Confirmation</span>
-        </div>
-    </div>
 
-    <div class=\"row\">
-        <div class=\"col-md-8\">
-            <div class=\"card mb-4\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Shipping & Billing Information</h5>
-                </div>
-                <div class=\"card-body\">
-                    ";
-        // line 30
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 30, $this->source); })()), 'form_start');
+        ";
+        // line 24
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 24, $this->source); })()), "flashes", ["error"], "method", false, false, false, 24));
+        foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+            // line 25
+            yield "            <div class=\"alert alert-danger\">";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
+            yield "</div>
+        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 27
         yield "
-                    <div class=\"mb-3\">
-                        ";
-        // line 32
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 32, $this->source); })()), "shippingAddress", [], "any", false, false, false, 32), 'label', ["label_attr" => ["class" => "form-label"], "label" => "Shipping Address"]);
-        yield "
-                        ";
-        // line 33
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 33, $this->source); })()), "shippingAddress", [], "any", false, false, false, 33), 'widget', ["attr" => ["class" => "form-control", "rows" => 3, "placeholder" => "Enter your complete shipping address"]]);
-        yield "
-                        ";
-        // line 34
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 34, $this->source); })()), "shippingAddress", [], "any", false, false, false, 34), 'errors');
-        yield "
+        <div class=\"row\">
+            <div class=\"col-md-8\">
+                <div class=\"card mb-4\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Shipping & Billing Information</h5>
                     </div>
-
-                    <div class=\"mb-3\">
+                    <div class=\"card-body\">
                         ";
-        // line 38
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 38, $this->source); })()), "billingAddress", [], "any", false, false, false, 38), 'label', ["label_attr" => ["class" => "form-label"], "label" => "Billing Address"]);
+        // line 35
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 35, $this->source); })()), 'form_start', ["attr" => ["id" => "checkout-form"]]);
         yield "
-                        ";
-        // line 39
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 39, $this->source); })()), "billingAddress", [], "any", false, false, false, 39), 'widget', ["attr" => ["class" => "form-control", "rows" => 3, "placeholder" => "Enter your complete billing address"]]);
-        yield "
-                        ";
+                        <div class=\"row\">
+                            <div class=\"col-md-6\">
+                                <h6>Shipping Address</h6>
+                                <div class=\"mb-3\">
+                                    ";
         // line 40
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 40, $this->source); })()), "billingAddress", [], "any", false, false, false, 40), 'errors');
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 40, $this->source); })()), "shippingAddress", [], "any", false, false, false, 40), 'label', ["label_attr" => ["class" => "form-label"], "label" => "Shipping Address"]);
         yield "
-
-                        <div class=\"form-check mt-2\">
-                            <input class=\"form-check-input\" type=\"checkbox\" id=\"sameAsShipping\">
-                            <label class=\"form-check-label\" for=\"sameAsShipping\">
-                                Same as shipping address
-                            </label>
+                                    ";
+        // line 41
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 41, $this->source); })()), "shippingAddress", [], "any", false, false, false, 41), 'widget', ["attr" => ["class" => "form-control", "rows" => 4, "placeholder" => "Enter your complete shipping address"]]);
+        yield "
+                                    ";
+        // line 42
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 42, $this->source); })()), "shippingAddress", [], "any", false, false, false, 42), 'errors');
+        yield "
+                                </div>
+                            </div>
+                            <div class=\"col-md-6\">
+                                <h6>Billing Address</h6>
+                                <div class=\"form-check mb-3\">
+                                    <input class=\"form-check-input\" type=\"checkbox\" id=\"sameAsShipping\" checked>
+                                    <label class=\"form-check-label\" for=\"sameAsShipping\">Same as shipping address</label>
+                                </div>
+                                <div id=\"billingFields\">
+                                    <div class=\"mb-3\">
+                                        ";
+        // line 53
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 53, $this->source); })()), "billingAddress", [], "any", false, false, false, 53), 'label', ["label_attr" => ["class" => "form-label"], "label" => "Billing Address"]);
+        yield "
+                                        ";
+        // line 54
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 54, $this->source); })()), "billingAddress", [], "any", false, false, false, 54), 'widget', ["attr" => ["class" => "form-control", "rows" => 4, "placeholder" => "Enter your complete billing address"]]);
+        yield "
+                                        ";
+        // line 55
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 55, $this->source); })()), "billingAddress", [], "any", false, false, false, 55), 'errors');
+        yield "
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <h5 class=\"mb-3\">Payment Information</h5>
-
-                    <div class=\"mb-3\">
-                        <label for=\"cardName\" class=\"form-label\">Name on Card</label>
-                        <input type=\"text\" class=\"form-control\" id=\"cardName\" placeholder=\"Enter the name on your card\" required>
-                    </div>
-
-                    <div class=\"mb-3\">
-                        <label for=\"cardNumber\" class=\"form-label\">Card Number</label>
-                        <div class=\"input-group\">
-                            <input type=\"text\" class=\"form-control\" id=\"cardNumber\" placeholder=\"XXXX XXXX XXXX XXXX\" required>
-                            <span class=\"input-group-text\">
+                        <h6 class=\"mt-4\">Payment Method</h6>
+                        <div class=\"mb-3\">
+                            <div class=\"form-check\">
+                                <input type=\"radio\" class=\"form-check-input\" id=\"paymentCredit\" name=\"payment_method\" value=\"credit\" required checked>
+                                <label class=\"form-check-label\" for=\"paymentCredit\">Credit Card</label>
+                            </div>
+                            <div class=\"form-check\">
+                                <input type=\"radio\" class=\"form-check-input\" id=\"paymentPaypal\" name=\"payment_method\" value=\"paypal\">
+                                <label class=\"form-check-label\" for=\"paymentPaypal\">PayPal</label>
+                            </div>
+                        </div>
+                        <div id=\"creditCardFields\">
+                            <div class=\"mb-3\">
+                                <label for=\"cardName\" class=\"form-label\">Name on Card</label>
+                                <input type=\"text\" class=\"form-control\" id=\"cardName\" name=\"card_name\" required>
+                            </div>
+                            <div class=\"mb-3\">
+                                <label for=\"cardNumber\" class=\"form-label\">Card Number</label>
+                                <div class=\"input-group\">
+                                    <input type=\"text\" class=\"form-control\" id=\"cardNumber\" name=\"card_number\" placeholder=\"XXXX XXXX XXXX XXXX\" required>
+                                    <span class=\"input-group-text\">
                                     <i class=\"fab fa-cc-visa me-1\"></i>
                                     <i class=\"fab fa-cc-mastercard me-1\"></i>
                                     <i class=\"fab fa-cc-amex\"></i>
                                 </span>
+                                </div>
+                            </div>
+                            <div class=\"row\">
+                                <div class=\"col-md-6 mb-3\">
+                                    <label for=\"cardExpiry\" class=\"form-label\">Expiration Date</label>
+                                    <input type=\"text\" class=\"form-control\" id=\"cardExpiry\" name=\"card_expiry\" placeholder=\"MM/YY\" required>
+                                </div>
+                                <div class=\"col-md-6 mb-3\">
+                                    <label for=\"cardCvv\" class=\"form-label\">CVV</label>
+                                    <input type=\"text\" class=\"form-control\" id=\"cardCvv\" name=\"card_cvv\" placeholder=\"XXX\" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class=\"row\">
-                        <div class=\"col-md-6 mb-3\">
-                            <label for=\"cardExpiry\" class=\"form-label\">Expiration Date</label>
-                            <input type=\"text\" class=\"form-control\" id=\"cardExpiry\" placeholder=\"MM/YY\" required>
-                        </div>
-                        <div class=\"col-md-6 mb-3\">
-                            <label for=\"cardCvv\" class=\"form-label\">CVV</label>
-                            <input type=\"text\" class=\"form-control\" id=\"cardCvv\" placeholder=\"XXX\" required>
-                        </div>
-                    </div>
-
-                    <div class=\"d-flex justify-content-between\">
-                        <a href=\"";
-        // line 81
+                        <div class=\"d-flex justify-content-between mt-4\">
+                            <a href=\"";
+        // line 101
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("cart_index");
         yield "\" class=\"btn btn-outline-primary\">
-                            <i class=\"fas fa-arrow-left me-2\"></i> Back to Cart
-                        </a>
-                        <button type=\"submit\" class=\"btn btn-primary\">
-                            <i class=\"fas fa-check me-2\"></i> Place Order
-                        </button>
-                    </div>
-                    ";
-        // line 88
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 88, $this->source); })()), 'form_end');
+                                <i class=\"fas fa-arrow-left me-2\"></i> Back to Cart
+                            </a>
+                            <button type=\"submit\" class=\"btn btn-primary\">
+                                <i class=\"fas fa-check me-2\"></i> Place Order
+                            </button>
+                        </div>
+                        ";
+        // line 108
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 108, $this->source); })()), 'form_end');
         yield "
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class=\"col-md-4\">
-            <div class=\"card mb-4\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Order Summary</h5>
-                </div>
-                <div class=\"card-body\">
-                    <div class=\"mb-3\">
+            <div class=\"col-md-4\">
+                <div class=\"card mb-4\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Order Summary</h5>
+                    </div>
+                    <div class=\"card-body\">
                         ";
-        // line 99
+        // line 118
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["cart"]) || array_key_exists("cart", $context) ? $context["cart"] : (function () { throw new RuntimeError('Variable "cart" does not exist.', 99, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["cart"]) || array_key_exists("cart", $context) ? $context["cart"] : (function () { throw new RuntimeError('Variable "cart" does not exist.', 118, $this->source); })()));
         foreach ($context['_seq'] as $context["id"] => $context["item"]) {
-            // line 100
+            // line 119
             yield "                            <div class=\"d-flex justify-content-between mb-2\">
                                 <div>
                                     <span>";
-            // line 102
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 102), "name", [], "any", false, false, false, 102), "html", null, true);
+            // line 121
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 121), "name", [], "any", false, false, false, 121), "html", null, true);
             yield "</span>
                                     <small class=\"text-muted d-block\">Qty: ";
-            // line 103
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 103), "html", null, true);
+            // line 122
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 122), "html", null, true);
             yield "</small>
                                 </div>
-                                <span>\$";
-            // line 105
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 105), "price", [], "any", false, false, false, 105) * CoreExtension::getAttribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 105)), 2), "html", null, true);
-            yield "</span>
+                                <span>";
+            // line 124
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["item"], "product", [], "any", false, false, false, 124), "price", [], "any", false, false, false, 124) * CoreExtension::getAttribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 124)), 3), "html", null, true);
+            yield " TND</span>
                             </div>
                         ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['id'], $context['item'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 108
-        yield "                    </div>
-                    <hr>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Subtotal:</span>
-                        <span>\$";
-        // line 112
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 112, $this->source); })()), 2), "html", null, true);
-        yield "</span>
-                    </div>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Shipping:</span>
-                        <span>\$0.00</span>
-                    </div>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Tax (10%):</span>
-                        <span>\$";
-        // line 120
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 120, $this->source); })()) * 0.1), 2), "html", null, true);
-        yield "</span>
-                    </div>
-                    <hr>
-                    <div class=\"d-flex justify-content-between mb-3\">
-                        <strong>Total:</strong>
-                        <strong>\$";
-        // line 125
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 125, $this->source); })()) + ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 125, $this->source); })()) * 0.1)), 2), "html", null, true);
-        yield "</strong>
+        // line 127
+        yield "                        <hr>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Subtotal:</span>
+                            <span>";
+        // line 130
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 130, $this->source); })()), 3), "html", null, true);
+        yield " TND</span>
+                        </div>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Shipping:</span>
+                            <span>
+                            ";
+        // line 135
+        if (((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 135, $this->source); })()) >= 150)) {
+            // line 136
+            yield "                                <span class=\"text-success\">Free</span>
+                            ";
+        } else {
+            // line 138
+            yield "                                ";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(7, 3), "html", null, true);
+            yield " TND
+                            ";
+        }
+        // line 140
+        yield "                        </span>
+                        </div>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Tax (10%):</span>
+                            <span>";
+        // line 144
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 144, $this->source); })()) * 0.1), 3), "html", null, true);
+        yield " TND</span>
+                        </div>
+                        <hr>
+                        <div class=\"d-flex justify-content-between mb-3\">
+                            <strong>Total:</strong>
+                            <strong class=\"text-primary\">
+                                ";
+        // line 150
+        if (((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 150, $this->source); })()) >= 150)) {
+            // line 151
+            yield "                                    ";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 151, $this->source); })()) + ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 151, $this->source); })()) * 0.1)), 3), "html", null, true);
+            yield "
+                                ";
+        } else {
+            // line 153
+            yield "                                    ";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 153, $this->source); })()) + ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 153, $this->source); })()) * 0.1)) + 7), 3), "html", null, true);
+            yield "
+                                ";
+        }
+        // line 154
+        yield " TND
+                            </strong>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class=\"card\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Have a Coupon?</h5>
-                </div>
-                <div class=\"card-body\">
-                    <form class=\"d-flex\">
-                        <input type=\"text\" class=\"form-control me-2\" placeholder=\"Coupon code\">
-                        <button type=\"submit\" class=\"btn btn-outline-primary\">Apply</button>
-                    </form>
+                <div class=\"card\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Have a Coupon?</h5>
+                    </div>
+                    <div class=\"card-body\">
+                        <div class=\"input-group\">
+                            <input type=\"text\" class=\"form-control\" id=\"couponCode\" placeholder=\"Coupon code\">
+                            <button class=\"btn btn-outline-primary\" type=\"button\" onclick=\"applyCoupon()\">Apply</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -282,7 +343,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
         yield from [];
     }
 
-    // line 145
+    // line 176
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -292,17 +353,62 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 146
+        // line 177
         yield "    <script>
-        document.getElementById('sameAsShipping').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('";
-        // line 149
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 149, $this->source); })()), "billingAddress", [], "any", false, false, false, 149), "vars", [], "any", false, false, false, 149), "id", [], "any", false, false, false, 149), "html", null, true);
-        yield "').value = document.getElementById('";
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 149, $this->source); })()), "shippingAddress", [], "any", false, false, false, 149), "vars", [], "any", false, false, false, 149), "id", [], "any", false, false, false, 149), "html", null, true);
-        yield "').value;
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponCode').value;
+            if (!couponCode.trim()) {
+                alert('Please enter a coupon code');
+                return;
             }
+            fetch('";
+        // line 184
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("coupon_apply");
+        yield "', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'code=' + encodeURIComponent(couponCode)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while applying the coupon');
+                });
+        }
+
+        document.getElementById('sameAsShipping').addEventListener('change', function() {
+            const billingFields = document.getElementById('billingFields');
+            const billingAddress = document.getElementById('";
+        // line 207
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 207, $this->source); })()), "billingAddress", [], "any", false, false, false, 207), "vars", [], "any", false, false, false, 207), "id", [], "any", false, false, false, 207), "html", null, true);
+        yield "');
+            const shippingAddress = document.getElementById('";
+        // line 208
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 208, $this->source); })()), "shippingAddress", [], "any", false, false, false, 208), "vars", [], "any", false, false, false, 208), "id", [], "any", false, false, false, 208), "html", null, true);
+        yield "');
+            if (this.checked) {
+                billingAddress.value = shippingAddress.value;
+                billingFields.style.display = 'none';
+            } else {
+                billingFields.style.display = 'block';
+            }
+        });
+
+        document.getElementById('paymentCredit').addEventListener('change', function() {
+            document.getElementById('creditCardFields').style.display = 'block';
+        });
+
+        document.getElementById('paymentPaypal').addEventListener('change', function() {
+            document.getElementById('creditCardFields').style.display = 'none';
         });
     </script>
 ";
@@ -333,7 +439,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  301 => 149,  296 => 146,  286 => 145,  259 => 125,  251 => 120,  240 => 112,  234 => 108,  225 => 105,  220 => 103,  216 => 102,  212 => 100,  208 => 99,  194 => 88,  184 => 81,  140 => 40,  136 => 39,  132 => 38,  125 => 34,  121 => 33,  117 => 32,  112 => 30,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  396 => 208,  392 => 207,  366 => 184,  357 => 177,  347 => 176,  319 => 154,  313 => 153,  307 => 151,  305 => 150,  296 => 144,  290 => 140,  284 => 138,  280 => 136,  278 => 135,  270 => 130,  265 => 127,  256 => 124,  251 => 122,  247 => 121,  243 => 119,  239 => 118,  226 => 108,  216 => 101,  167 => 55,  163 => 54,  159 => 53,  145 => 42,  141 => 41,  137 => 40,  129 => 35,  119 => 27,  110 => 25,  106 => 24,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -343,139 +449,170 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
 {% block title %}Checkout{% endblock %}
 
 {% block body %}
-    <h1 class=\"mb-4\">Checkout</h1>
+    <div class=\"container mt-5\">
+        <h1 class=\"mb-4\"><i class=\"fas fa-credit-card me-2\"></i>Checkout</h1>
 
-    <div class=\"checkout-steps mb-4\">
-        <div class=\"step completed\">
-            <span>1</span>
-            <span class=\"step-label\">Cart</span>
+        <div class=\"checkout-steps mb-4\">
+            <div class=\"step completed\">
+                <span>1</span>
+                <span class=\"step-label\">Cart</span>
+            </div>
+            <div class=\"step active\">
+                <span>2</span>
+                <span class=\"step-label\">Checkout</span>
+            </div>
+            <div class=\"step\">
+                <span>3</span>
+                <span class=\"step-label\">Confirmation</span>
+            </div>
         </div>
-        <div class=\"step active\">
-            <span>2</span>
-            <span class=\"step-label\">Checkout</span>
-        </div>
-        <div class=\"step\">
-            <span>3</span>
-            <span class=\"step-label\">Confirmation</span>
-        </div>
-    </div>
 
-    <div class=\"row\">
-        <div class=\"col-md-8\">
-            <div class=\"card mb-4\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Shipping & Billing Information</h5>
-                </div>
-                <div class=\"card-body\">
-                    {{ form_start(form) }}
-                    <div class=\"mb-3\">
-                        {{ form_label(form.shippingAddress, 'Shipping Address', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.shippingAddress, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Enter your complete shipping address'}}) }}
-                        {{ form_errors(form.shippingAddress) }}
+        {% for message in app.flashes('error') %}
+            <div class=\"alert alert-danger\">{{ message }}</div>
+        {% endfor %}
+
+        <div class=\"row\">
+            <div class=\"col-md-8\">
+                <div class=\"card mb-4\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Shipping & Billing Information</h5>
                     </div>
-
-                    <div class=\"mb-3\">
-                        {{ form_label(form.billingAddress, 'Billing Address', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.billingAddress, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Enter your complete billing address'}}) }}
-                        {{ form_errors(form.billingAddress) }}
-
-                        <div class=\"form-check mt-2\">
-                            <input class=\"form-check-input\" type=\"checkbox\" id=\"sameAsShipping\">
-                            <label class=\"form-check-label\" for=\"sameAsShipping\">
-                                Same as shipping address
-                            </label>
+                    <div class=\"card-body\">
+                        {{ form_start(form, {'attr': {'id': 'checkout-form'}}) }}
+                        <div class=\"row\">
+                            <div class=\"col-md-6\">
+                                <h6>Shipping Address</h6>
+                                <div class=\"mb-3\">
+                                    {{ form_label(form.shippingAddress, 'Shipping Address', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.shippingAddress, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Enter your complete shipping address'}}) }}
+                                    {{ form_errors(form.shippingAddress) }}
+                                </div>
+                            </div>
+                            <div class=\"col-md-6\">
+                                <h6>Billing Address</h6>
+                                <div class=\"form-check mb-3\">
+                                    <input class=\"form-check-input\" type=\"checkbox\" id=\"sameAsShipping\" checked>
+                                    <label class=\"form-check-label\" for=\"sameAsShipping\">Same as shipping address</label>
+                                </div>
+                                <div id=\"billingFields\">
+                                    <div class=\"mb-3\">
+                                        {{ form_label(form.billingAddress, 'Billing Address', {'label_attr': {'class': 'form-label'}}) }}
+                                        {{ form_widget(form.billingAddress, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Enter your complete billing address'}}) }}
+                                        {{ form_errors(form.billingAddress) }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <h5 class=\"mb-3\">Payment Information</h5>
-
-                    <div class=\"mb-3\">
-                        <label for=\"cardName\" class=\"form-label\">Name on Card</label>
-                        <input type=\"text\" class=\"form-control\" id=\"cardName\" placeholder=\"Enter the name on your card\" required>
-                    </div>
-
-                    <div class=\"mb-3\">
-                        <label for=\"cardNumber\" class=\"form-label\">Card Number</label>
-                        <div class=\"input-group\">
-                            <input type=\"text\" class=\"form-control\" id=\"cardNumber\" placeholder=\"XXXX XXXX XXXX XXXX\" required>
-                            <span class=\"input-group-text\">
+                        <h6 class=\"mt-4\">Payment Method</h6>
+                        <div class=\"mb-3\">
+                            <div class=\"form-check\">
+                                <input type=\"radio\" class=\"form-check-input\" id=\"paymentCredit\" name=\"payment_method\" value=\"credit\" required checked>
+                                <label class=\"form-check-label\" for=\"paymentCredit\">Credit Card</label>
+                            </div>
+                            <div class=\"form-check\">
+                                <input type=\"radio\" class=\"form-check-input\" id=\"paymentPaypal\" name=\"payment_method\" value=\"paypal\">
+                                <label class=\"form-check-label\" for=\"paymentPaypal\">PayPal</label>
+                            </div>
+                        </div>
+                        <div id=\"creditCardFields\">
+                            <div class=\"mb-3\">
+                                <label for=\"cardName\" class=\"form-label\">Name on Card</label>
+                                <input type=\"text\" class=\"form-control\" id=\"cardName\" name=\"card_name\" required>
+                            </div>
+                            <div class=\"mb-3\">
+                                <label for=\"cardNumber\" class=\"form-label\">Card Number</label>
+                                <div class=\"input-group\">
+                                    <input type=\"text\" class=\"form-control\" id=\"cardNumber\" name=\"card_number\" placeholder=\"XXXX XXXX XXXX XXXX\" required>
+                                    <span class=\"input-group-text\">
                                     <i class=\"fab fa-cc-visa me-1\"></i>
                                     <i class=\"fab fa-cc-mastercard me-1\"></i>
                                     <i class=\"fab fa-cc-amex\"></i>
                                 </span>
+                                </div>
+                            </div>
+                            <div class=\"row\">
+                                <div class=\"col-md-6 mb-3\">
+                                    <label for=\"cardExpiry\" class=\"form-label\">Expiration Date</label>
+                                    <input type=\"text\" class=\"form-control\" id=\"cardExpiry\" name=\"card_expiry\" placeholder=\"MM/YY\" required>
+                                </div>
+                                <div class=\"col-md-6 mb-3\">
+                                    <label for=\"cardCvv\" class=\"form-label\">CVV</label>
+                                    <input type=\"text\" class=\"form-control\" id=\"cardCvv\" name=\"card_cvv\" placeholder=\"XXX\" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class=\"row\">
-                        <div class=\"col-md-6 mb-3\">
-                            <label for=\"cardExpiry\" class=\"form-label\">Expiration Date</label>
-                            <input type=\"text\" class=\"form-control\" id=\"cardExpiry\" placeholder=\"MM/YY\" required>
+                        <div class=\"d-flex justify-content-between mt-4\">
+                            <a href=\"{{ path('cart_index') }}\" class=\"btn btn-outline-primary\">
+                                <i class=\"fas fa-arrow-left me-2\"></i> Back to Cart
+                            </a>
+                            <button type=\"submit\" class=\"btn btn-primary\">
+                                <i class=\"fas fa-check me-2\"></i> Place Order
+                            </button>
                         </div>
-                        <div class=\"col-md-6 mb-3\">
-                            <label for=\"cardCvv\" class=\"form-label\">CVV</label>
-                            <input type=\"text\" class=\"form-control\" id=\"cardCvv\" placeholder=\"XXX\" required>
-                        </div>
+                        {{ form_end(form) }}
                     </div>
-
-                    <div class=\"d-flex justify-content-between\">
-                        <a href=\"{{ path('cart_index') }}\" class=\"btn btn-outline-primary\">
-                            <i class=\"fas fa-arrow-left me-2\"></i> Back to Cart
-                        </a>
-                        <button type=\"submit\" class=\"btn btn-primary\">
-                            <i class=\"fas fa-check me-2\"></i> Place Order
-                        </button>
-                    </div>
-                    {{ form_end(form) }}
                 </div>
             </div>
-        </div>
-        <div class=\"col-md-4\">
-            <div class=\"card mb-4\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Order Summary</h5>
-                </div>
-                <div class=\"card-body\">
-                    <div class=\"mb-3\">
+            <div class=\"col-md-4\">
+                <div class=\"card mb-4\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Order Summary</h5>
+                    </div>
+                    <div class=\"card-body\">
                         {% for id, item in cart %}
                             <div class=\"d-flex justify-content-between mb-2\">
                                 <div>
                                     <span>{{ item.product.name }}</span>
                                     <small class=\"text-muted d-block\">Qty: {{ item.quantity }}</small>
                                 </div>
-                                <span>\${{ (item.product.price * item.quantity)|number_format(2) }}</span>
+                                <span>{{ (item.product.price * item.quantity)|number_format(3) }} TND</span>
                             </div>
                         {% endfor %}
-                    </div>
-                    <hr>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Subtotal:</span>
-                        <span>\${{ total|number_format(2) }}</span>
-                    </div>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Shipping:</span>
-                        <span>\$0.00</span>
-                    </div>
-                    <div class=\"d-flex justify-content-between mb-2\">
-                        <span>Tax (10%):</span>
-                        <span>\${{ (total * 0.1)|number_format(2) }}</span>
-                    </div>
-                    <hr>
-                    <div class=\"d-flex justify-content-between mb-3\">
-                        <strong>Total:</strong>
-                        <strong>\${{ (total + (total * 0.1))|number_format(2) }}</strong>
+                        <hr>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Subtotal:</span>
+                            <span>{{ total|number_format(3) }} TND</span>
+                        </div>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Shipping:</span>
+                            <span>
+                            {% if total >= 150 %}
+                                <span class=\"text-success\">Free</span>
+                            {% else %}
+                                {{ 7|number_format(3) }} TND
+                            {% endif %}
+                        </span>
+                        </div>
+                        <div class=\"d-flex justify-content-between mb-2\">
+                            <span>Tax (10%):</span>
+                            <span>{{ (total * 0.1)|number_format(3) }} TND</span>
+                        </div>
+                        <hr>
+                        <div class=\"d-flex justify-content-between mb-3\">
+                            <strong>Total:</strong>
+                            <strong class=\"text-primary\">
+                                {% if total >= 150 %}
+                                    {{ (total + (total * 0.1))|number_format(3) }}
+                                {% else %}
+                                    {{ (total + (total * 0.1) + 7)|number_format(3) }}
+                                {% endif %} TND
+                            </strong>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class=\"card\">
-                <div class=\"card-header\">
-                    <h5 class=\"mb-0\">Have a Coupon?</h5>
-                </div>
-                <div class=\"card-body\">
-                    <form class=\"d-flex\">
-                        <input type=\"text\" class=\"form-control me-2\" placeholder=\"Coupon code\">
-                        <button type=\"submit\" class=\"btn btn-outline-primary\">Apply</button>
-                    </form>
+                <div class=\"card\">
+                    <div class=\"card-header\">
+                        <h5 class=\"mb-0\">Have a Coupon?</h5>
+                    </div>
+                    <div class=\"card-body\">
+                        <div class=\"input-group\">
+                            <input type=\"text\" class=\"form-control\" id=\"couponCode\" placeholder=\"Coupon code\">
+                            <button class=\"btn btn-outline-primary\" type=\"button\" onclick=\"applyCoupon()\">Apply</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -484,10 +621,51 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
 
 {% block javascripts %}
     <script>
-        document.getElementById('sameAsShipping').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('{{ form.billingAddress.vars.id }}').value = document.getElementById('{{ form.shippingAddress.vars.id }}').value;
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponCode').value;
+            if (!couponCode.trim()) {
+                alert('Please enter a coupon code');
+                return;
             }
+            fetch('{{ path('coupon_apply') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'code=' + encodeURIComponent(couponCode)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while applying the coupon');
+                });
+        }
+
+        document.getElementById('sameAsShipping').addEventListener('change', function() {
+            const billingFields = document.getElementById('billingFields');
+            const billingAddress = document.getElementById('{{ form.billingAddress.vars.id }}');
+            const shippingAddress = document.getElementById('{{ form.shippingAddress.vars.id }}');
+            if (this.checked) {
+                billingAddress.value = shippingAddress.value;
+                billingFields.style.display = 'none';
+            } else {
+                billingFields.style.display = 'block';
+            }
+        });
+
+        document.getElementById('paymentCredit').addEventListener('change', function() {
+            document.getElementById('creditCardFields').style.display = 'block';
+        });
+
+        document.getElementById('paymentPaypal').addEventListener('change', function() {
+            document.getElementById('creditCardFields').style.display = 'none';
         });
     </script>
 {% endblock %}", "checkout/index.html.twig", "C:\\Users\\Raed\\e-commerce\\e-commerce\\templates\\checkout\\index.html.twig");

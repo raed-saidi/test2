@@ -5,8 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -14,42 +14,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: "string", length: 180, unique: true)]
-    private $email;
+    private ?string $email = null;
 
     #[ORM\Column(type: "json")]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: "string")]
-    private $password;
+    private ?string $password = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $firstName;
+    private ?string $firstName = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $lastName;
+    private ?string $lastName = null;
 
     #[ORM\Column(type: "string", length: 20, nullable: true)]
-    private $phone;
+    private ?string $phone = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
-    private $createdAt;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
-    private $updatedAt;
+    private ?\DateTime $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: "user")]
-    private $orders;
+    private Collection $orders;
 
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -161,7 +154,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
 
     public function addOrder(Order $order): self
     {
@@ -169,24 +168,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->orders[] = $order;
             $order->setUser($this);
         }
-
         return $this;
     }
 
     public function removeOrder(Order $order): self
     {
         if ($this->orders->removeElement($order)) {
-            // Set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
         }
-
         return $this;
     }
 
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
+        // Clear temporary sensitive data if any
     }
 }
