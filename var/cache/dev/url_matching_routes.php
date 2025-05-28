@@ -57,21 +57,22 @@ return [
                         .'|/status(*:181)'
                     .')'
                 .')'
+                .'|/order/([^/]++)(*:206)'
                 .'|/debug/(?'
-                    .'|password\\-test/([^/]++)/([^/]++)(*:233)'
-                    .'|auth\\-test/([^/]++)/([^/]++)(*:269)'
+                    .'|password\\-test/([^/]++)/([^/]++)(*:256)'
+                    .'|auth\\-test/([^/]++)/([^/]++)(*:292)'
                 .')'
                 .'|/product(?'
                     .'|s/(?'
-                        .'|image/(\\d+)(*:305)'
-                        .'|(\\d+)(*:318)'
+                        .'|image/(\\d+)(*:328)'
+                        .'|(\\d+)(*:341)'
                     .')'
-                    .'|/([^/]++)/review(*:343)'
+                    .'|/([^/]++)/review(*:366)'
                 .')'
                 .'|/cart/(?'
-                    .'|add/(\\d+)(*:370)'
-                    .'|update/(\\d+)(*:390)'
-                    .'|remove/(\\d+)(*:410)'
+                    .'|add/(\\d+)(*:393)'
+                    .'|update/(\\d+)(*:413)'
+                    .'|remove/(\\d+)(*:433)'
                 .')'
             .')/?$}sDu',
     ],
@@ -83,14 +84,15 @@ return [
         139 => [[['_route' => 'admin_category_delete', '_controller' => 'App\\Controller\\Admin\\AdminController::deleteCategory'], ['id'], ['POST' => 0], null, false, false, null]],
         166 => [[['_route' => 'admin_order_show', '_controller' => 'App\\Controller\\Admin\\AdminController::showOrder'], ['id'], null, null, false, true, null]],
         181 => [[['_route' => 'admin_order_status', '_controller' => 'App\\Controller\\Admin\\AdminController::updateOrderStatus'], ['id'], ['POST' => 0], null, false, false, null]],
-        233 => [[['_route' => 'debug_password_test', '_controller' => 'App\\Controller\\PasswordDebugController::testPassword'], ['email', 'password'], null, null, false, true, null]],
-        269 => [[['_route' => 'debug_auth_test', '_controller' => 'App\\Controller\\PasswordDebugController::testAuth'], ['email', 'password'], null, null, false, true, null]],
-        305 => [[['_route' => 'product_image', '_controller' => 'App\\Controller\\ProductController::serveImage'], ['id'], null, null, false, true, null]],
-        318 => [[['_route' => 'product_show', '_controller' => 'App\\Controller\\ProductController::show'], ['id'], null, null, false, true, null]],
-        343 => [[['_route' => 'product_review_add', '_controller' => 'App\\Controller\\ReviewController::addReview'], ['id'], ['POST' => 0], null, false, false, null]],
-        370 => [[['_route' => 'cart_add', '_controller' => 'App\\Controller\\CartController::add'], ['id'], null, null, false, true, null]],
-        390 => [[['_route' => 'cart_update', '_controller' => 'App\\Controller\\CartController::update'], ['id'], null, null, false, true, null]],
-        410 => [
+        206 => [[['_route' => 'app_order_show', '_controller' => 'App\\Controller\\OrderController::show'], ['id'], null, null, false, true, null]],
+        256 => [[['_route' => 'debug_password_test', '_controller' => 'App\\Controller\\PasswordDebugController::testPassword'], ['email', 'password'], null, null, false, true, null]],
+        292 => [[['_route' => 'debug_auth_test', '_controller' => 'App\\Controller\\PasswordDebugController::testAuth'], ['email', 'password'], null, null, false, true, null]],
+        328 => [[['_route' => 'product_image', '_controller' => 'App\\Controller\\ProductController::serveImage'], ['id'], null, null, false, true, null]],
+        341 => [[['_route' => 'product_show', '_controller' => 'App\\Controller\\ProductController::show'], ['id'], null, null, false, true, null]],
+        366 => [[['_route' => 'product_review_add', '_controller' => 'App\\Controller\\ReviewController::addReview'], ['id'], ['POST' => 0], null, false, false, null]],
+        393 => [[['_route' => 'cart_add', '_controller' => 'App\\Controller\\CartController::add'], ['id'], null, null, false, true, null]],
+        413 => [[['_route' => 'cart_update', '_controller' => 'App\\Controller\\CartController::update'], ['id'], null, null, false, true, null]],
+        433 => [
             [['_route' => 'cart_remove', '_controller' => 'App\\Controller\\CartController::remove'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

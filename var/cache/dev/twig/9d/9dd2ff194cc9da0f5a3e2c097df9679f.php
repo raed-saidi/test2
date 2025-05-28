@@ -177,7 +177,10 @@ class __TwigTemplate_26248d097f6ceee1243ab16097587602 extends Template
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "total", [], "any", false, false, false, 60), 3), "html", null, true);
                 yield " TND</td>
                                         <td>
-                                            <a href=\"#\" class=\"btn btn-sm btn-outline-primary\">View</a>
+                                            <a href=\"";
+                // line 62
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_order_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["order"], "id", [], "any", false, false, false, 62)]), "html", null, true);
+                yield "\" class=\"btn btn-sm btn-outline-primary\">View</a>
                                         </td>
                                     </tr>
                                 ";
@@ -238,7 +241,7 @@ class __TwigTemplate_26248d097f6ceee1243ab16097587602 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  209 => 79,  201 => 74,  195 => 70,  189 => 66,  177 => 60,  172 => 58,  167 => 56,  163 => 55,  160 => 54,  156 => 53,  142 => 41,  140 => 40,  126 => 29,  120 => 26,  114 => 23,  108 => 20,  101 => 16,  95 => 15,  85 => 7,  75 => 6,  58 => 4,  41 => 2,);
+        return array (  212 => 79,  204 => 74,  198 => 70,  192 => 66,  182 => 62,  177 => 60,  172 => 58,  167 => 56,  163 => 55,  160 => 54,  156 => 53,  142 => 41,  140 => 40,  126 => 29,  120 => 26,  114 => 23,  108 => 20,  101 => 16,  95 => 15,  85 => 7,  75 => 6,  58 => 4,  41 => 2,);
     }
 
     public function getSourceContext(): Source
@@ -304,7 +307,7 @@ class __TwigTemplate_26248d097f6ceee1243ab16097587602 extends Template
                                         </td>
                                         <td>{{ order.total|number_format(3) }} TND</td>
                                         <td>
-                                            <a href=\"#\" class=\"btn btn-sm btn-outline-primary\">View</a>
+                                            <a href=\"{{ path('app_order_show', {'id': order.id}) }}\" class=\"btn btn-sm btn-outline-primary\">View</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

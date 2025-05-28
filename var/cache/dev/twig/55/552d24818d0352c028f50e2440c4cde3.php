@@ -177,27 +177,29 @@ class __TwigTemplate_d5c9724b060ec96fb7c258f3af5e6da2 extends Template
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "total", [], "any", false, false, false, 59), 3), "html", null, true);
                 yield " TND</td>
                                         <td>
-                                            <a href=\"#\" class=\"btn btn-sm btn-outline-primary\">View</a>
-                                        </td>
+                                            <a href=\"";
+                // line 61
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_order_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["order"], "id", [], "any", false, false, false, 61)]), "html", null, true);
+                yield "\" class=\"btn btn-sm btn-outline-primary\">View</a>                                        </td>
                                     </tr>
                                 ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['order'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 65
+            // line 64
             yield "                            </tbody>
                         </table>
                     </div>
                 ";
         } else {
-            // line 69
+            // line 68
             yield "                    <div class=\"text-center py-5\">
                         <i class=\"fas fa-shopping-bag fa-5x text-light-gray mb-4\"></i>
                         <h4>No Orders Yet</h4>
                         <p class=\"text-light-gray mb-4\">You haven't placed any orders yet.</p>
                         <a href=\"";
-            // line 73
+            // line 72
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("product_index");
             yield "\" class=\"btn btn-primary\">
                             <i class=\"fas fa-shopping-bag me-2\"></i> Start Shopping
@@ -205,7 +207,7 @@ class __TwigTemplate_d5c9724b060ec96fb7c258f3af5e6da2 extends Template
                     </div>
                 ";
         }
-        // line 78
+        // line 77
         yield "            </div>
         </div>
     </div>
@@ -238,7 +240,7 @@ class __TwigTemplate_d5c9724b060ec96fb7c258f3af5e6da2 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  209 => 78,  201 => 73,  195 => 69,  189 => 65,  177 => 59,  172 => 57,  167 => 55,  163 => 54,  160 => 53,  156 => 52,  142 => 40,  140 => 39,  126 => 28,  120 => 25,  114 => 22,  108 => 19,  101 => 15,  95 => 14,  85 => 6,  75 => 5,  58 => 3,  41 => 1,);
+        return array (  211 => 77,  203 => 72,  197 => 68,  191 => 64,  182 => 61,  177 => 59,  172 => 57,  167 => 55,  163 => 54,  160 => 53,  156 => 52,  142 => 40,  140 => 39,  126 => 28,  120 => 25,  114 => 22,  108 => 19,  101 => 15,  95 => 14,  85 => 6,  75 => 5,  58 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -303,8 +305,7 @@ class __TwigTemplate_d5c9724b060ec96fb7c258f3af5e6da2 extends Template
                                         </td>
                                         <td>{{ order.total|number_format(3) }} TND</td>
                                         <td>
-                                            <a href=\"#\" class=\"btn btn-sm btn-outline-primary\">View</a>
-                                        </td>
+                                            <a href=\"{{ path('app_order_show', {'id': order.id}) }}\" class=\"btn btn-sm btn-outline-primary\">View</a>                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

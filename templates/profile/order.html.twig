@@ -59,7 +59,7 @@
                                         </td>
                                         <td>{{ order.total|number_format(3) }} TND</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                            <a href="{{ path('app_order_show', {'id': order.id}) }}" class="btn btn-sm btn-outline-primary">View</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

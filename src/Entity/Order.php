@@ -2,47 +2,45 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\Table(name: '`order`')]
+#[ORM\Entity(repositoryClass: "App\Repository\OrderRepository")]
+#[ORM\Table(name: "`order`")]
 class Order
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "orders")]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "datetime")]
+    private ?\DateTime $createdAt = null;
+
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private ?float $total = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = 'pending';
-
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: "text")]
     private ?string $shippingAddress = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: "text")]
     private ?string $billingAddress = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
-
-    #[ORM\OneToMany(mappedBy: 'orderRef', targetEntity: OrderItem::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: "order", cascade: ["persist", "remove"])]
     private Collection $items;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,20 +53,20 @@ class Order
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
         return $this;
     }
 
-    public function getTotal(): ?float
+    public function getCreatedAt(): ?\DateTime
     {
-        return $this->total;
+        return $this->createdAt;
     }
 
-    public function setTotal(float $total): static
+    public function setCreatedAt(\DateTime $createdAt): self
     {
-        $this->total = $total;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -77,9 +75,20 @@ class Order
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(string $status): self
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
         return $this;
     }
 
@@ -88,7 +97,7 @@ class Order
         return $this->shippingAddress;
     }
 
-    public function setShippingAddress(string $shippingAddress): static
+    public function setShippingAddress(string $shippingAddress): self
     {
         $this->shippingAddress = $shippingAddress;
         return $this;
@@ -99,47 +108,35 @@ class Order
         return $this->billingAddress;
     }
 
-    public function setBillingAddress(string $billingAddress): static
+    public function setBillingAddress(string $billingAddress): self
     {
         $this->billingAddress = $billingAddress;
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
     /**
-     * @return Collection<int, OrderItem>
+     * @return Collection|OrderItem[]
      */
     public function getItems(): Collection
     {
         return $this->items;
     }
 
-    public function addItem(OrderItem $item): static
+    public function addItem(OrderItem $item): self
     {
         if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->setOrderRef($this);
+            $this->items[] = $item;
+            $item->setOrder($this);
         }
 
         return $this;
     }
 
-    public function removeItem(OrderItem $item): static
+    public function removeItem(OrderItem $item): self
     {
         if ($this->items->removeElement($item)) {
-            // set the owning side to null (unless already changed)
-            if ($item->getOrderRef() === $this) {
-                $item->setOrderRef(null);
+            if ($item->getOrder() === $this) {
+                $item->setOrder(null);
             }
         }
 
