@@ -22,14 +22,14 @@ class CheckoutController extends AbstractController
     {
         $cart = $cartService->getCart();
 
-        if (count($cart) === 0) {
+        if (empty($cart)) {
             $this->addFlash('error', 'Your cart is empty');
             return $this->redirectToRoute('cart_index');
         }
 
         $order = new Order();
         $order->setUser($this->getUser());
-        $order->setTotal($cartService->getTotal());
+        $order->setTotal($cartService->getCartSummary()['total']); // Use getCartSummary
         $order->setStatus('pending');
         $order->setCreatedAt(new \DateTime());
 
@@ -44,26 +44,26 @@ class CheckoutController extends AbstractController
             $cardCvv = $request->request->get('card_cvv');
             $paymentMethod = $request->request->get('payment_method');
 
-            // Validate payment fields (placeholder)
+            // Validate payment fields
             if ($paymentMethod === 'credit' && (!$cardName || !$cardNumber || !$cardExpiry || !$cardCvv)) {
                 $this->addFlash('error', 'Please fill in all payment details.');
                 return $this->redirectToRoute('checkout_index');
             }
 
             // Create order items
-            foreach ($cart as $id => $item) {
+            foreach ($cart as $item) {
                 $orderItem = new OrderItem();
                 $orderItem->setProduct($item['product']);
                 $orderItem->setQuantity($item['quantity']);
-                $orderItem->setPrice($item['product']->getPrice());
-                $orderItem->setOrder($order); // Set the order relation
+                $orderItem->setPrice($item['product']->price);
+                $orderItem->setOrder($order);
                 $order->addItem($orderItem);
 
-                // Update product stock
+                // Update stock
                 $product = $item['product'];
                 $newStock = $product->getStock() - $item['quantity'];
                 if ($newStock < 0) {
-                    $this->addFlash('error', 'Insufficient stock for ' . $product->getName());
+                    $this->addFlash('error', 'Insufficient stock for product: ' . $product->getName());
                     return $this->redirectToRoute('checkout_index');
                 }
                 $product->setStock($newStock);
@@ -72,23 +72,23 @@ class CheckoutController extends AbstractController
 
             // Placeholder for payment processing
             if ($paymentMethod === 'credit') {
-                // TODO: Integrate Stripe or other payment gateway
-                $order->setStatus('paid'); // Temporary for testing
+                // TODO: Integrate Stripe
+                $order->setStatus('completed');
             }
 
             $entityManager->persist($order);
             $entityManager->flush();
 
-            // Clear the cart
-            $cartService->clear();
+            // Clear cart
+            $cartService->clearCart();
 
             return $this->redirectToRoute('checkout_success', ['id' => $order->getId()]);
         }
 
-        return $this->render('checkout/index.html.twig', [
+        return $this->render('Checkout/index.html.twig', [
             'form' => $form->createView(),
             'cart' => $cart,
-            'total' => $cartService->getTotal(),
+            'total' => $cartService->getCartSummary()['total'], // Use getCartSummary
         ]);
     }
 

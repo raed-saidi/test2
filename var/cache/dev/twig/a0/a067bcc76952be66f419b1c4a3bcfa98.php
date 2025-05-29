@@ -238,7 +238,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
         // line 118
         $context['_parent'] = $context;
         $context['_seq'] = CoreExtension::ensureTraversable((isset($context["cart"]) || array_key_exists("cart", $context) ? $context["cart"] : (function () { throw new RuntimeError('Variable "cart" does not exist.', 118, $this->source); })()));
-        foreach ($context['_seq'] as $context["id"] => $context["item"]) {
+        foreach ($context['_seq'] as $context["_key"] => $context["item"]) {
             // line 119
             yield "                            <div class=\"d-flex justify-content-between mb-2\">
                                 <div>
@@ -259,7 +259,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
                         ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['id'], $context['item'], $context['_parent']);
+        unset($context['_seq'], $context['_key'], $context['item'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 127
         yield "                        <hr>
@@ -267,57 +267,59 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
                             <span>Subtotal:</span>
                             <span>";
         // line 130
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 130, $this->source); })()), 3), "html", null, true);
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 130, $this->source); })()), "subtotal", [], "any", false, false, false, 130), 3), "html", null, true);
         yield " TND</span>
                         </div>
-                        <div class=\"d-flex justify-content-between mb-2\">
+                        ";
+        // line 132
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 132, $this->source); })()), "coupon", [], "any", false, false, false, 132)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 133
+            yield "                            <div class=\"d-flex justify-content-between mb-2 text-success\">
+                                <span>Discount (";
+            // line 134
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 134, $this->source); })()), "coupon", [], "any", false, false, false, 134), "code", [], "any", false, false, false, 134), "html", null, true);
+            yield "):</span>
+                                <span>-";
+            // line 135
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 135, $this->source); })()), "discount", [], "any", false, false, false, 135), 3), "html", null, true);
+            yield " TND</span>
+                            </div>
+                        ";
+        }
+        // line 138
+        yield "                        <div class=\"d-flex justify-content-between mb-2\">
                             <span>Shipping:</span>
                             <span>
-                            ";
-        // line 135
-        if (((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 135, $this->source); })()) >= 150)) {
-            // line 136
-            yield "                                <span class=\"text-success\">Free</span>
-                            ";
+                                ";
+        // line 141
+        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 141, $this->source); })()), "shipping", [], "any", false, false, false, 141) == 0)) {
+            // line 142
+            yield "                                    <span class=\"text-success\">Free</span>
+                                ";
         } else {
-            // line 138
-            yield "                                ";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(7, 3), "html", null, true);
+            // line 144
+            yield "                                    ";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 144, $this->source); })()), "shipping", [], "any", false, false, false, 144), 3), "html", null, true);
             yield " TND
-                            ";
+                                ";
         }
-        // line 140
-        yield "                        </span>
+        // line 146
+        yield "                            </span>
                         </div>
                         <div class=\"d-flex justify-content-between mb-2\">
                             <span>Tax (10%):</span>
                             <span>";
-        // line 144
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 144, $this->source); })()) * 0.1), 3), "html", null, true);
+        // line 150
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 150, $this->source); })()), "subtotal", [], "any", false, false, false, 150) * 0.1), 3), "html", null, true);
         yield " TND</span>
                         </div>
                         <hr>
                         <div class=\"d-flex justify-content-between mb-3\">
                             <strong>Total:</strong>
-                            <strong class=\"text-primary\">
-                                ";
-        // line 150
-        if (((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 150, $this->source); })()) >= 150)) {
-            // line 151
-            yield "                                    ";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber(((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 151, $this->source); })()) + ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 151, $this->source); })()) * 0.1)), 3), "html", null, true);
-            yield "
-                                ";
-        } else {
-            // line 153
-            yield "                                    ";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 153, $this->source); })()) + ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 153, $this->source); })()) * 0.1)) + 7), 3), "html", null, true);
-            yield "
-                                ";
-        }
-        // line 154
-        yield " TND
-                            </strong>
+                            <strong class=\"text-primary\">";
+        // line 155
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 155, $this->source); })()), "total", [], "any", false, false, false, 155) + (CoreExtension::getAttribute($this->env, $this->source, (isset($context["cartSummary"]) || array_key_exists("cartSummary", $context) ? $context["cartSummary"] : (function () { throw new RuntimeError('Variable "cartSummary" does not exist.', 155, $this->source); })()), "subtotal", [], "any", false, false, false, 155) * 0.1)), 3), "html", null, true);
+        yield " TND</strong>
                         </div>
                     </div>
                 </div>
@@ -439,7 +441,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  396 => 208,  392 => 207,  366 => 184,  357 => 177,  347 => 176,  319 => 154,  313 => 153,  307 => 151,  305 => 150,  296 => 144,  290 => 140,  284 => 138,  280 => 136,  278 => 135,  270 => 130,  265 => 127,  256 => 124,  251 => 122,  247 => 121,  243 => 119,  239 => 118,  226 => 108,  216 => 101,  167 => 55,  163 => 54,  159 => 53,  145 => 42,  141 => 41,  137 => 40,  129 => 35,  119 => 27,  110 => 25,  106 => 24,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  398 => 208,  394 => 207,  368 => 184,  359 => 177,  349 => 176,  321 => 155,  313 => 150,  307 => 146,  301 => 144,  297 => 142,  295 => 141,  290 => 138,  284 => 135,  280 => 134,  277 => 133,  275 => 132,  270 => 130,  265 => 127,  256 => 124,  251 => 122,  247 => 121,  243 => 119,  239 => 118,  226 => 108,  216 => 101,  167 => 55,  163 => 54,  159 => 53,  145 => 42,  141 => 41,  137 => 40,  129 => 35,  119 => 27,  110 => 25,  106 => 24,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -561,7 +563,7 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
                         <h5 class=\"mb-0\">Order Summary</h5>
                     </div>
                     <div class=\"card-body\">
-                        {% for id, item in cart %}
+                        {% for item in cart %}
                             <div class=\"d-flex justify-content-between mb-2\">
                                 <div>
                                     <span>{{ item.product.name }}</span>
@@ -573,32 +575,32 @@ class __TwigTemplate_f86f6729cd23f985eca692b8b7b9e46c extends Template
                         <hr>
                         <div class=\"d-flex justify-content-between mb-2\">
                             <span>Subtotal:</span>
-                            <span>{{ total|number_format(3) }} TND</span>
+                            <span>{{ cartSummary.subtotal|number_format(3) }} TND</span>
                         </div>
+                        {% if cartSummary.coupon %}
+                            <div class=\"d-flex justify-content-between mb-2 text-success\">
+                                <span>Discount ({{ cartSummary.coupon.code }}):</span>
+                                <span>-{{ cartSummary.discount|number_format(3) }} TND</span>
+                            </div>
+                        {% endif %}
                         <div class=\"d-flex justify-content-between mb-2\">
                             <span>Shipping:</span>
                             <span>
-                            {% if total >= 150 %}
-                                <span class=\"text-success\">Free</span>
-                            {% else %}
-                                {{ 7|number_format(3) }} TND
-                            {% endif %}
-                        </span>
+                                {% if cartSummary.shipping == 0 %}
+                                    <span class=\"text-success\">Free</span>
+                                {% else %}
+                                    {{ cartSummary.shipping|number_format(3) }} TND
+                                {% endif %}
+                            </span>
                         </div>
                         <div class=\"d-flex justify-content-between mb-2\">
                             <span>Tax (10%):</span>
-                            <span>{{ (total * 0.1)|number_format(3) }} TND</span>
+                            <span>{{ (cartSummary.subtotal * 0.1)|number_format(3) }} TND</span>
                         </div>
                         <hr>
                         <div class=\"d-flex justify-content-between mb-3\">
                             <strong>Total:</strong>
-                            <strong class=\"text-primary\">
-                                {% if total >= 150 %}
-                                    {{ (total + (total * 0.1))|number_format(3) }}
-                                {% else %}
-                                    {{ (total + (total * 0.1) + 7)|number_format(3) }}
-                                {% endif %} TND
-                            </strong>
+                            <strong class=\"text-primary\">{{ (cartSummary.total + (cartSummary.subtotal * 0.1))|number_format(3) }} TND</strong>
                         </div>
                     </div>
                 </div>

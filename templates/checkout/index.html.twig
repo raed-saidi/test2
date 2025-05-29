@@ -115,7 +115,7 @@
                         <h5 class="mb-0">Order Summary</h5>
                     </div>
                     <div class="card-body">
-                        {% for id, item in cart %}
+                        {% for item in cart %}
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
                                     <span>{{ item.product.name }}</span>
@@ -127,32 +127,32 @@
                         <hr>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal:</span>
-                            <span>{{ total|number_format(3) }} TND</span>
+                            <span>{{ cartSummary.subtotal|number_format(3) }} TND</span>
                         </div>
+                        {% if cartSummary.coupon %}
+                            <div class="d-flex justify-content-between mb-2 text-success">
+                                <span>Discount ({{ cartSummary.coupon.code }}):</span>
+                                <span>-{{ cartSummary.discount|number_format(3) }} TND</span>
+                            </div>
+                        {% endif %}
                         <div class="d-flex justify-content-between mb-2">
                             <span>Shipping:</span>
                             <span>
-                            {% if total >= 150 %}
-                                <span class="text-success">Free</span>
-                            {% else %}
-                                {{ 7|number_format(3) }} TND
-                            {% endif %}
-                        </span>
+                                {% if cartSummary.shipping == 0 %}
+                                    <span class="text-success">Free</span>
+                                {% else %}
+                                    {{ cartSummary.shipping|number_format(3) }} TND
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Tax (10%):</span>
-                            <span>{{ (total * 0.1)|number_format(3) }} TND</span>
+                            <span>{{ (cartSummary.subtotal * 0.1)|number_format(3) }} TND</span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
                             <strong>Total:</strong>
-                            <strong class="text-primary">
-                                {% if total >= 150 %}
-                                    {{ (total + (total * 0.1))|number_format(3) }}
-                                {% else %}
-                                    {{ (total + (total * 0.1) + 7)|number_format(3) }}
-                                {% endif %} TND
-                            </strong>
+                            <strong class="text-primary">{{ (cartSummary.total + (cartSummary.subtotal * 0.1))|number_format(3) }} TND</strong>
                         </div>
                     </div>
                 </div>
